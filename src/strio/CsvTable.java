@@ -1,30 +1,20 @@
 package strio;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.HashMap;
 
 import gnc.Serializer;
 
 import java.lang.IllegalArgumentException;
-import java.lang.RuntimeException;
 import java.lang.reflect.InvocationTargetException;
 
 
 /**
  * CsvTable genera una tabla formato csv en un archivo
  * con base en los parametros serializables de un objeto.
- *
  * Para marcar un parametro de objeto como serializable
  * se utiliza la anotacion {@link gnc.SerializableField}.
- *
  * CsvTable solo tomará en cuenta los campos marcados con
  * dicha anotación. Con ellos generará una tabla, cuyos
  * encabezados serán las "keys" de los parámetros serializados.
@@ -68,19 +58,6 @@ public class CsvTable <T extends RowItem> {
 
     }
 
-
-    /**
-     * Crea un nuevo archivo csv con los encabezados especificados
-     * @param fileName Nombre del archivo
-     * @param headers Encabezados
-     *
-     */
-    public void createRecord()
-    {
-
-        WNR.createFile(filePath, String.join(this.splitter, this.headers));
-    }
-
     /**
      * Transforma una fila de texto plano separada por el 'splitter'
      * en un LinkedHashMap
@@ -106,6 +83,18 @@ public class CsvTable <T extends RowItem> {
 
 
     /**
+     * Crea un nuevo archivo csv con los encabezados especificados
+     *
+     */
+    public void createRecord()
+    {
+
+        WNR.createFile(filePath, String.join(this.splitter, this.headers));
+    }
+
+
+
+    /**
      * Carga toda la información de un archivo csv a objetos independientes.
      */
     @SuppressWarnings("unchecked")
@@ -123,11 +112,11 @@ public class CsvTable <T extends RowItem> {
          */
         boolean pass= true;
 
-        /**
+        /*
          * Mapa en el cual se cargaran los elementos de las filas
          * según usando como clave su encabezado
          */
-        LinkedHashMap<String,Object> map = new LinkedHashMap<>();
+        LinkedHashMap<String,Object> map;
 
         // declaramos instancia generica;
         T newObj;
@@ -178,14 +167,8 @@ public class CsvTable <T extends RowItem> {
                 this.record.add( newObj);
             }
         }
-        catch (InstantiationException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalArgumentException | InvocationTargetException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (NoSuchMethodException | SecurityException e) {
+        catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException |
+               NoSuchMethodException | SecurityException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -207,18 +190,18 @@ public class CsvTable <T extends RowItem> {
          * HashMap que sirve para almacenar los campos
          * serializables de los objetos en registro
          */
-        LinkedHashMap <String,Object> map = new LinkedHashMap<>();
+        LinkedHashMap <String,Object> map;
 
         // linea de escritura
-        String content = "";
+        StringBuilder content = new StringBuilder();
         // final para linea de escritura
-        String end = "";
+        String end;
 
         /*
          * Convertimos los encabezados a un string
          * formateado con el 'splitter'
          */
-        content += String.join(this.splitter, this.headers) + "\n";
+        content.append(String.join(this.splitter, this.headers)).append("\n");
 
 
 
@@ -241,14 +224,14 @@ public class CsvTable <T extends RowItem> {
                  * Emparejamos la informacion del mapa del objeto
                  * serializado con su correspondiente encabezado
                  */
-                content += map.get(headers[i]) + end;
+                content.append(map.get(headers[i])).append(end);
             }
 
             // añadimos salto de linea
-            content += "\n";
+            content.append("\n");
         }
 
-        WNR.write(this.filePath, content);
+        WNR.write(this.filePath, content.toString());
 
     }
 
@@ -356,8 +339,8 @@ public class CsvTable <T extends RowItem> {
     }
 
     /**
-     * Elimina un registro de la tabla
-     * @param key
+     * Delete a record from table
+     * @param key : Record key
      */
     public void delRecord(int key)
     {
