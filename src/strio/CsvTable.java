@@ -2,6 +2,7 @@ package strio;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 
 import gnc.Serializer;
@@ -81,6 +82,19 @@ public class CsvTable <T extends RowItem> {
 
     }
 
+    /**
+     * Sort objects in record using an object key
+     */
+    protected void sort()
+    {
+        // compare keys of objects in record
+        record.sort(new Comparator<T>() {
+            @Override
+            public int compare(T o1, T o2) {
+                return Integer.compare(o1.key,o2.key);
+            }
+        });
+    }
 
     /**
      * Crea un nuevo archivo csv con los encabezados especificados
