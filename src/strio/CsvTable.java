@@ -9,6 +9,7 @@ import gnc.Serializer;
 
 import java.lang.IllegalArgumentException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Queue;
 
 
 /**
@@ -35,6 +36,9 @@ public class CsvTable <T extends RowItem> {
 
     /** registro en tiempo de ejecución*/
     protected ArrayList<T> record;
+
+    /** Unused Keys */
+    protected Queue<Integer> unusedKeys;
 
     /** instancia de objeto generico*/
     protected T obj;
@@ -314,32 +318,23 @@ public class CsvTable <T extends RowItem> {
 
 
     /**
-     * Añade un registro a la tabla
-     * @param obj : Objeto de registro
+     * Add object to record
+     * @param obj : Object
      */
     public void addRecord(T obj)
     {
 
-        addRecord(obj,false);
+        int newKey;// initialize new key
 
+        /*
+        We check if a key is available, if there are no keys available we assign a new key.
+         */
+        newKey = (unusedKeys.isEmpty()) ? record.size() : unusedKeys.poll();
+
+        // sort record
+        this.sort();
     }
 
-    /**
-     * Añade un registro a la tabla
-     * @param obj : Objeto de registro
-     */
-    public void addRecord(T obj,boolean ignoreIndex)
-    {
-
-        if (!ignoreIndex)
-        {
-            // Seteamos clave
-            obj.key = record.size();
-        }
-        // guardamos registro
-        record.add(obj);
-
-    }
 
     /**
      * Reemplaza el objeto en el registro por el objeto
@@ -359,14 +354,11 @@ public class CsvTable <T extends RowItem> {
     public void delRecord(int key)
     {
 
-        // Eliminamos elemento
+        // We remove the object with the specified key from the record
         record.remove(key);
 
-        // Recorremos indices
-        for (int i = key; i <record.size() ; i++)
-        {
-            record.get(i).key = 0;
-        }
+        // add unused key to queue
+        unusedKeys.add(key);
     }
 
 
