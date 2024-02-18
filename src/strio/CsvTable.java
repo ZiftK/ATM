@@ -273,7 +273,7 @@ public class CsvTable <T extends RowItem> {
      * en la columna con el encabezado especificado, retorna el item, de lo
      * contrario retorna null. Solo retorna el primer item.
      */
-    public T findItem(String header, Object val)
+    public T findItem(Object val)
     {
         // Recorremos items
         for (T item : record)
@@ -297,7 +297,7 @@ public class CsvTable <T extends RowItem> {
      * @return Lista con coincidencias
      */
     @SuppressWarnings("unchecked")
-    public T[] findItems(String header, Object val)
+    public T[] findItems(Object val)
     {
 
         ArrayList<T> rtn = new ArrayList<>();
