@@ -422,7 +422,7 @@ public class CsvTable <T extends RowItem> {
 
     /**
      *
-     * @return Cantidad de filas en la tabla
+     * @return Table rows count
      */
     public int rowsCount() {
         return record.size();
