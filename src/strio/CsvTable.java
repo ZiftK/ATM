@@ -4,9 +4,7 @@ package strio;
 import gnc.Serializer;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Queue;
+import java.util.*;
 
 
 /**
@@ -90,6 +88,28 @@ public class CsvTable <T extends RowItem> {
     {
         // compare keys of objects in record
         record.sort((o1, o2) -> Integer.compare(o1.key, o2.key));
+    }
+
+    protected  void loadKeys(){
+
+        /*
+        Generate a set to store all the keys of objects in the table
+         */
+        HashSet<Integer> keySet = new HashSet<>();
+
+        // Add each object key to set
+        for (T obj : record){
+            keySet.add(obj.key);
+        }
+
+        // We iterate through the range of possible keys within the record
+        for (int i = 0; i < record.size();i++){
+
+            if (!keySet.contains(i)){
+                unusedKeys.add(i); // Add key if set does not contain it
+            }
+        }
+
     }
 
     /**
@@ -182,6 +202,8 @@ public class CsvTable <T extends RowItem> {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        this.loadKeys();
 
     }
 
