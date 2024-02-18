@@ -324,12 +324,13 @@ public class CsvTable <T extends RowItem> {
     public void addRecord(T obj)
     {
 
-        int newKey;// initialize new key
-
         /*
         We check if a key is available, if there are no keys available we assign a new key.
          */
-        newKey = (unusedKeys.isEmpty()) ? record.size() : unusedKeys.poll();
+        obj.key = (unusedKeys.isEmpty()) ? record.size() : unusedKeys.poll();
+
+        // add object to record
+        record.add(obj);
 
         // sort record
         this.sort();
