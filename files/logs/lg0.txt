@@ -1,0 +1,10 @@
+>>>>>>>>>> Alta de usuario
+
+ID: 0
+Nombre: Alvaro
+Apellido Paterno: Caballero
+Apellido Materno: NA
+Saldo: 0.00
+Tipo de Fianza: DEBITO
+Numero de telefono: NA
+
