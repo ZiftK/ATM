@@ -1,14 +1,11 @@
 package strio;
 
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-
 import gnc.Serializer;
 
-import java.lang.IllegalArgumentException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Queue;
 
 
@@ -92,12 +89,7 @@ public class CsvTable <T extends RowItem> {
     protected void sort()
     {
         // compare keys of objects in record
-        record.sort(new Comparator<T>() {
-            @Override
-            public int compare(T o1, T o2) {
-                return Integer.compare(o1.key,o2.key);
-            }
-        });
+        record.sort((o1, o2) -> Integer.compare(o1.key, o2.key));
     }
 
     /**
@@ -267,7 +259,6 @@ public class CsvTable <T extends RowItem> {
     /**
      * Busca el primer elemento que contenga el valor especificado
      * en la columna con el nombre de encabezado especificado
-     * @param header : Nombre de encabezado
      * @param val : Valor para comparar
      * @return Si encuentra un item, que contenga el valor especificado
      * en la columna con el encabezado especificado, retorna el item, de lo
@@ -292,7 +283,6 @@ public class CsvTable <T extends RowItem> {
     /**
      * Busca los elementos que contengan el valor especificado
      * en la columna con el nombre de encabezado especificado
-     * @param header : Nombre de encabezado
      * @param val : Valor para comparar
      * @return Lista con coincidencias
      */
