@@ -44,6 +44,7 @@ public class CsvTable <T extends RowItem> {
     public CsvTable(String filePath, T obj)
     {
         this.record = new ArrayList<>();
+        this.unusedKeys = new ArrayDeque<>();
         this.filePath = filePath;
         this.obj = obj;
         this.headers = Serializer.getSerialFields(obj);
