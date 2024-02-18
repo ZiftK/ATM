@@ -332,6 +332,12 @@ public class Msg {
 
 
     /**
+     * Print an info message
+     * @param message
+     */
+    public void info(String message) { System.out.println("\n[Info] "+ message + "\n");}
+
+    /**
      * Agrega un comando al nivel de comandos
      *
      * @param level : nivel de comando
