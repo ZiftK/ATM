@@ -120,7 +120,7 @@ public class CsvTable <T extends RowItem> {
          * la lectrua de la primera linea, después se establece en
          * false.
          */
-        boolean pass= true;
+        boolean pass = true;
 
         /*
          * Mapa en el cual se cargaran los elementos de las filas
@@ -309,24 +309,57 @@ public class CsvTable <T extends RowItem> {
 
     /**
      * Add object to record
-     * @param obj : Object
+     * @param obj : Object to be recorded
      */
     public void addRecord(T obj){
 
         addRecord(obj,false);
     }
 
-    public void addRecord(T obj, boolean ignoreIndex){
+    /**
+     * Add an object to the record. If 'ignoreKey' is set to true,
+     * the current key of the object is respected unless that key
+     * already exists in the records. If the key already exists in
+     * the records, the key is set to an unused key or a new one.
+     * @param obj : Object to be recorded
+     * @param ignoreKey : Decide whether the key of the element is
+     *                  automatically set internally or the original key is respected
+     */
+    public void addRecord(T obj, boolean ignoreKey){
+        addRecord(obj,ignoreKey,false);
+    }
 
+    /**
+     * Add an object to the record, ignoring whether the assigned key already
+     * exists in it, only if 'ignoreKey' is set and 'repeatKey' are set to true
+     * @param obj : Object to be recorded
+     * @param ignoreKey : Decide whether the key of the element is
+     *                  automatically set internally or the original key is respected
+     * @param repeatKeys : Decide whether to check for the existence of an object
+     *                  with the key of the object before recording it or not
+     */
+    public void addRecord(T obj, boolean ignoreKey, boolean repeatKeys)
+    {
         /*
             We check if a key is available, if there are no keys available we assign a new key.
-            Only if ignoreIndex was set to true
+            This procedure will only execute if key ignore is not desired.
         */
-        if (!ignoreIndex){
+        if (!ignoreKey) {
 
             obj.key = (unusedKeys.isEmpty()) ? record.size() : unusedKeys.poll();
         }
-        //TODO: se necesita revisar si la clave ya existe en el registro
+
+        /*
+        We check if the object's key is within the range of existing keys.
+        If it is within the range, we check if it is within the unused keys.
+        If there are no unused keys available and the current key is within the -
+        range of existing keys, then the key is set to the next key higher than the highest key.
+        This procedure will only execute if key repetition is not desired.
+         */
+        if (!repeatKeys && ignoreKey){
+
+            obj.key = (obj.key < record.size() && !unusedKeys.contains(obj.key)) ? obj.key : record.size();
+        }
 
         // add object to record
         record.add(obj);
