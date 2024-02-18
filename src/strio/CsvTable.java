@@ -311,13 +311,21 @@ public class CsvTable <T extends RowItem> {
      * Add object to record
      * @param obj : Object
      */
-    public void addRecord(T obj)
-    {
+    public void addRecord(T obj){
+
+        addRecord(obj,false);
+    }
+
+    public void addRecord(T obj, boolean ignoreIndex){
 
         /*
-        We check if a key is available, if there are no keys available we assign a new key.
-         */
-        obj.key = (unusedKeys.isEmpty()) ? record.size() : unusedKeys.poll();
+            We check if a key is available, if there are no keys available we assign a new key.
+            Only if ignoreIndex was set to true
+        */
+        if (!ignoreIndex){
+
+            obj.key = (unusedKeys.isEmpty()) ? record.size() : unusedKeys.poll();
+        }
 
         // add object to record
         record.add(obj);
