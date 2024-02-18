@@ -90,6 +90,9 @@ public class CsvTable <T extends RowItem> {
         record.sort((o1, o2) -> Integer.compare(o1.key, o2.key));
     }
 
+    /**
+     * Load unused keys in record
+     */
     protected  void loadKeys(){
 
         /*
