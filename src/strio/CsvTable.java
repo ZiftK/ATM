@@ -326,6 +326,7 @@ public class CsvTable <T extends RowItem> {
 
             obj.key = (unusedKeys.isEmpty()) ? record.size() : unusedKeys.poll();
         }
+        //TODO: se necesita revisar si la clave ya existe en el registro
 
         // add object to record
         record.add(obj);
