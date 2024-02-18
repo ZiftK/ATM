@@ -4,21 +4,22 @@ import java.io.File;
 
 import strio.CsvTable;
 import strio.KeyFileItem;
+import strio.Log;
 import strio.WNR;
 
 
 
 public class AdminATM extends ATM {
 
-    /** Tabla de rutas a registros de cliente */
+    /** Linked Table */
     CsvTable<KeyFileItem> clientsTable;
 
     /**
-     * Carga los datos de la tabla
+     * Load the data in the table
      */
     public void load()
     {
-        // cargamos tabla de enlaces
+        // load linked table
         clientsTable = new CsvTable<KeyFileItem>("files/records.csv", new KeyFileItem());
         clientsTable.loadRecord();
     }
@@ -36,7 +37,7 @@ public class AdminATM extends ATM {
      */
     public void save()
     {
-        // sobre escrivimos tabla de enlaces
+        // override linked table
         clientsTable.writeRecord();
     }
 
@@ -184,15 +185,16 @@ public class AdminATM extends ATM {
         // escribimos datos en tabla
         clientsTable.writeRecord();
 
-        // --------------------------------- Creacion de log ---------------------------------
+        // --------------------------------- Log creation ---------------------------------
 
-        String cont = "";
-        // contenido del log
-        cont += String.format("%sCliente registrado\n%s",msg.repeatChar('>', 10),client.toString());
+        // create new log file
+        Log log = new Log(String.format("files/logs/lg%d.txt",item.key));
 
-        // guardamos contenido
-        WNR.createFile(String.format("files/logs/lg%d.txt",item.key),cont);
+        // initial log content
+        String content = String.format("%s Alta de usuario\n%s",msg.repeatChar('>',10),client);
 
+        // write initial content
+        log.write(content);
 
     }
 
