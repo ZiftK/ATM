@@ -5,7 +5,6 @@ import java.io.File;
 import strio.CsvTable;
 import strio.KeyFileItem;
 import strio.Log;
-import strio.WNR;
 
 
 
@@ -20,7 +19,7 @@ public class AdminATM extends ATM {
     public void load()
     {
         // load linked table
-        clientsTable = new CsvTable<KeyFileItem>("files/records.csv", new KeyFileItem());
+        clientsTable = new CsvTable<>("files/records.csv", new KeyFileItem());
         clientsTable.loadRecord();
     }
 
@@ -58,7 +57,7 @@ public class AdminATM extends ATM {
         // array de nombre y apellidos
         String[] names;
         // variable para saldo
-        double balance = 0;
+        double balance;
 
         // pedimos el nombre completo
         input = msg.getStringFromInput("Nombre completo [AAA BBBB CCC]");
@@ -66,7 +65,7 @@ public class AdminATM extends ATM {
         // separamos nombre y apellidos
         names = input.split(" ");
 
-        /**
+        /*
          * Registramos el nombre y apellidos de ingresados en la entrada.
          * Para evitar pedir entradas varias, se divide la entrada original
          * por espacios y solo se consideran los primeros tres elementos
@@ -88,11 +87,7 @@ public class AdminATM extends ATM {
         {
             client.setMidName(names[1]);
         }
-        catch(IllegalArgumentException e)
-        {
-            msg.warning(e.getMessage() + "  Apellido paterno establecido a NA");
-        }
-        catch(ArrayIndexOutOfBoundsException e)
+        catch(IllegalArgumentException | ArrayIndexOutOfBoundsException e)
         {
             msg.warning(e.getMessage() + "  Apellido paterno establecido a NA");
         }
@@ -101,17 +96,13 @@ public class AdminATM extends ATM {
         {
             client.setLastName(names[2]);
         }
-        catch(IllegalArgumentException  e)
-        {
-            msg.warning(e.getMessage() + "  Apellido materno establecido a NA");
-        }
-        catch(ArrayIndexOutOfBoundsException e)
+        catch(IllegalArgumentException | ArrayIndexOutOfBoundsException e)
         {
             msg.warning(e.getMessage() + "  Apellido materno establecido a NA");
         }
 
 
-        /**
+        /*
          *  Se establece el balance inicial del cliente, no puede establecerse
          *  un balance de deuda en el registro, así que se consideran solo
          *  valores positivos.
@@ -143,7 +134,7 @@ public class AdminATM extends ATM {
         input = input.toLowerCase();
 
         // si el tipo de fianza no es ninguna de las conocidas
-        if ( !(input.equals("c") && input.equals("d")))
+        if ( (!input.equals("c") && !input.equals("d")))
             msg.warning("Tipo de fianza no reconocida, establecida a debito");
 
         /*
@@ -168,7 +159,7 @@ public class AdminATM extends ATM {
         clientsTable.addRecord(item);
 
         // creamos tabla de registro de cliente
-        CsvTable <Client> cltbl = new CsvTable<Client>(item.getFilePath(),new Client());
+        CsvTable <Client> cltbl = new CsvTable<>(item.getFilePath(),new Client());
 
         // seteamso la clave del cliente a la de su correspondiente en la tabla de enlaces
         client.key = item.key;
@@ -211,11 +202,13 @@ public class AdminATM extends ATM {
 
         // borramos archivos de registro
         File cf = new File(String.format("files/clients/c%d.csv", key));
-        cf.delete();
+
 
         // borramos archivos de registro
-        File cl = new File(String.format("files/logs/lg%d.csv", key));
-        cl.delete();
+        File cl = new File(String.format("files/logs/lg%d.txt", key));
+
+        if (cf.delete() && cl.delete())
+            msg.info("Elemento borrado");
 
         clientsTable.writeRecord();
 
