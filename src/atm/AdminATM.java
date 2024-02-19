@@ -73,6 +73,7 @@ public class AdminATM extends ATM {
         super.loadCommands();
         commands.put("add", new Command(this::add,"Añade un registro"));
         commands.put("del", new Command(this::del,"Elimina un registro"));
+        commands.put("show", new Command(this::show,"Muestra todos los registros"));
     }
 
 
