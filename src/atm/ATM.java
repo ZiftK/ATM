@@ -110,10 +110,19 @@ public abstract class ATM {
     }
 
 
+    /**
+     * Load data from csv file to table
+     */
     public abstract void load();
 
+    /**
+     * Dump data from table to csv file
+     */
     public abstract void save();
 
+    /**
+     * Show info
+     */
     public abstract void show();
 
 }
