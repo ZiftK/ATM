@@ -153,10 +153,12 @@ public class AdminATM extends ATM {
         }
 
         // Establecemos nuevo item que almacenara la ruta del registro del cliente
-        item = new KeyFileItem(String.format("files/clients/c%d.csv", clientsTable.rowsCount()));
+        item = new KeyFileItem();
 
         // añadimos registro
         clientsTable.addRecord(item);
+
+        item.setFilePath(String.format("files/clients/c%d.csv", item.key));
 
         // creamos tabla de registro de cliente
         CsvTable <Client> cltbl = new CsvTable<>(item.getFilePath(),new Client());
