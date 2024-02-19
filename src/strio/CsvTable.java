@@ -377,6 +377,22 @@ public class CsvTable <T extends RowItem> {
 
     /**
      *
+     * @return Table headers
+     */
+    public String[] getHeaders(){
+        return this.headers;
+    }
+
+    /**
+     *
+     * @return CSV splitter
+     */
+    public String getSplitter(){
+        return this.splitter;
+    }
+
+    /**
+     *
      * @return Table rows count
      */
     public int rowsCount() {
