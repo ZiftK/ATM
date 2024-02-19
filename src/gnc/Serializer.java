@@ -320,5 +320,29 @@ public class Serializer  {
         }
     }
 
+    /**
+     * Transform a row in CSV format into a HashMap using the column headers
+     * @param stringRow : CSV string row
+     * @param headers : columns headers
+     * @param splitter : columns splitter
+     * @return Row HashMap
+     */
+    public static LinkedHashMap<String,Object> csvRowToHashMap(String stringRow, String[] headers,String splitter)
+    {
+        // init return HashMap
+        LinkedHashMap<String,Object> map = new LinkedHashMap<>();
 
+        // split row elements
+        String[] row = stringRow.split(splitter);
+
+        // for each element in row
+        for (int i = 0; i < row.length ; i ++)
+        {
+            // we add element and key
+            map.put(headers[i], row[i]);
+        }
+
+        return map;
+
+    }
 }
