@@ -61,28 +61,7 @@ public class CsvTable <T extends RowItem> {
 
     }
 
-    /**
-     * Transforma una fila de texto plano separada por el 'splitter'
-     * en un LinkedHashMap
-     * @param stringRow string de la fila a formatear
-     * @return LinkedHashMap compuesto por los valores de la fila y sus claves
-     */
-    protected LinkedHashMap<String,Object> format(String stringRow)
-    {
-        // declaramos el mapa de retorno
-        LinkedHashMap<String,Object> map = new LinkedHashMap<>();
 
-        // separamos los elementos de la fila
-        String[] row = stringRow.split(this.splitter);
-        for (int i = 0; i < row.length ; i ++)
-        {
-            // añadimos elementos con sus respectivas claves
-            map.put(this.headers[i], row[i]);
-        }
-
-        return map;
-
-    }
 
     /**
      * Sort objects in record using an object key
@@ -182,7 +161,7 @@ public class CsvTable <T extends RowItem> {
                 }
 
                 // transformamos la linea de texto en un HashMap ordenado
-                map = format(line);
+                map = Serializer.csvRowToHashMap(line,this.headers,this.splitter);
                 /*
                  * Usamos reflection para instanciar un objeto
                  * de tipo genérico, luego hacemos un parse al tipo
