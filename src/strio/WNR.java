@@ -77,6 +77,26 @@ public class WNR {
         return lineList;
     }
 
+
+    /**
+     * Return all file content as a single string
+     * @param filePath : file path
+     * @return file content
+     */
+    public static String readContent(String filePath){
+
+        // init StringBuilder
+        StringBuilder content = new StringBuilder();
+
+        // Iterate through file lines
+        for (String line : readFileLines(filePath)){
+            // build string
+            content.append(line);
+        }
+
+        // return string
+        return content.toString();
+    }
     /**
      * Over write file in file path with specified content
      * @param filePath : file path
