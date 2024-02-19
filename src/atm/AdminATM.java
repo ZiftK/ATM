@@ -1,11 +1,13 @@
 package atm;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import gnc.Serializer;
 import strio.CsvTable;
 import strio.KeyFileItem;
 import strio.Log;
-
+import strio.WNR;
 
 
 public class AdminATM extends ATM {
@@ -32,6 +34,37 @@ public class AdminATM extends ATM {
     public void show()
     {
         //TODO: Implements show method
+        KeyFileItem[] itemsList = clientsTable.items();
+
+        ArrayList<Client> clients = new ArrayList<>();
+
+        CsvTable<Client> ctbl = new CsvTable<>("",new Client());
+
+        Client newClient;
+
+        String content;
+
+        for (KeyFileItem item: itemsList){
+
+            content = WNR.readContent(item.getFilePath());
+
+            newClient = new Client();
+
+            Serializer.load(
+                    Serializer.csvRowToHashMap(
+                            content,
+                            ctbl.getHeaders(),
+                            ctbl.getSplitter()
+                    ),
+                    newClient
+            );
+
+            clients.add(newClient);
+        }
+
+        for (Client client : clients){
+            msg.info(client.toString());
+        }
     }
 
     @Override
