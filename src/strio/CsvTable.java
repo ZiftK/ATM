@@ -368,6 +368,7 @@ public class CsvTable <T extends RowItem> {
      * @param condition : Return condition
      * @return Objects that meet the condition
      */
+    @SuppressWarnings("unchecked")
     public T[] find(Predicate<T> condition){
 
         // init return array list
@@ -390,6 +391,7 @@ public class CsvTable <T extends RowItem> {
      *
      * @return All table items
      */
+    @SuppressWarnings("unchecked")
     public T[] items(){
         return (T[]) record.toArray();
     }
