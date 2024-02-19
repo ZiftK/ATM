@@ -5,6 +5,8 @@ import gnc.Serializer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 
 /**
@@ -361,6 +363,36 @@ public class CsvTable <T extends RowItem> {
         unusedKeys.add(key);
     }
 
+    /**
+     * Returns all elements that satisfy the predicate
+     * @param condition : Return condition
+     * @return Objects that meet the condition
+     */
+    public T[] find(Predicate<T> condition){
+
+        // init return array list
+        ArrayList<T> list = new ArrayList<>();
+
+        // for each object in record
+        for (T obj : record){
+
+            // compare using predicate
+            if (condition.test(obj)){
+                // if is true, add to return list
+                list.add(obj);
+            }
+        }
+
+        return (T[]) list.toArray();
+    }
+
+    /**
+     *
+     * @return All table items
+     */
+    public T[] items(){
+        return (T[]) record.toArray();
+    }
 
     /**
      *
