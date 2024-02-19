@@ -271,66 +271,7 @@ public class CsvTable <T extends RowItem> {
 
     }
 
-    /**
-     * Retorna el item con la clave especificada
-     * @param key : Clave
-     * @return Item
-     */
-    public T findItem(int key)
-    {
-        return record.get(key);
-    }
 
-
-    /**
-     * Busca el primer elemento que contenga el valor especificado
-     * en la columna con el nombre de encabezado especificado
-     * @param val : Valor para comparar
-     * @return Si encuentra un item, que contenga el valor especificado
-     * en la columna con el encabezado especificado, retorna el item, de lo
-     * contrario retorna null. Solo retorna el primer item.
-     */
-    public T findItem(Object val)
-    {
-        // Recorremos items
-        for (T item : record)
-        {
-            if(item.equals(val))
-            {
-                // Si se encuentran coincidencias
-                // retornamos item
-                return item;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Busca los elementos que contengan el valor especificado
-     * en la columna con el nombre de encabezado especificado
-     * @param val : Valor para comparar
-     * @return Lista con coincidencias
-     */
-    @SuppressWarnings("unchecked")
-    public T[] findItems(Object val)
-    {
-
-        ArrayList<T> rtn = new ArrayList<>();
-
-        // Recorremos items
-        for (T item : record)
-        {
-            if(item.equals(val))
-            {
-                // Si se encuentran coincidencias
-                // añadimos item a la lista
-                rtn.add(item);
-            }
-        }
-
-        return (T[]) rtn.toArray();
-    }
 
 
     /**
