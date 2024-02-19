@@ -34,19 +34,17 @@ public class AdminATM extends ATM {
     public void show()
     {
         //TODO: Implements show method
-        KeyFileItem[] itemsList = clientsTable.items();
+        ArrayList<KeyFileItem> itemsList = clientsTable.items();
 
         ArrayList<Client> clients = new ArrayList<>();
 
-        CsvTable<Client> ctbl = new CsvTable<>("",new Client());
-
         Client newClient;
 
-        String content;
+        ArrayList<String> lines;
 
         for (KeyFileItem item: itemsList){
 
-            content = WNR.readContent(item.getFilePath());
+            lines = WNR.readFileLines(item.getFilePath());
 
             newClient = new Client();
 
@@ -55,6 +53,10 @@ public class AdminATM extends ATM {
                             content,
                             ctbl.getHeaders(),
                             ctbl.getSplitter()
+                            lines.get(1),
+                            Serializer.getSerialFields(newClient),
+                            clientsTable.getSplitter()
+
                     ),
                     newClient
             );
