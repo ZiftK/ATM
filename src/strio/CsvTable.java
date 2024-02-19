@@ -371,8 +371,8 @@ public class CsvTable <T extends RowItem> {
      * @return All table items
      */
     @SuppressWarnings("unchecked")
-    public T[] items(){
-        return (T[]) record.toArray();
+    public ArrayList<T> items(){
+        return record;
     }
 
     /**
