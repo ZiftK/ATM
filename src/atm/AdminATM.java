@@ -13,14 +13,25 @@ public class AdminATM extends ATM {
     /** Linked Table */
     CsvTable<KeyFileItem> clientsTable;
 
-    /**
-     * Load the data in the table
-     */
+    @Override
     public void load()
     {
         // load linked table
         clientsTable = new CsvTable<>("files/records.csv", new KeyFileItem());
         clientsTable.loadRecord();
+    }
+
+    @Override
+    public void save()
+    {
+        // override linked table
+        clientsTable.writeRecord();
+    }
+
+    @Override
+    public void show()
+    {
+        //TODO: Implements show method
     }
 
     @Override
@@ -31,14 +42,7 @@ public class AdminATM extends ATM {
         commands.put("del", new Command(this::del,"Elimina un registro"));
     }
 
-    /**
-     * Guarda los datos de ejecución en la tabla
-     */
-    public void save()
-    {
-        // override linked table
-        clientsTable.writeRecord();
-    }
+
 
     /**
      * Añade un cliente al registro
