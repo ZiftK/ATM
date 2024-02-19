@@ -50,9 +50,6 @@ public class AdminATM extends ATM {
 
             Serializer.load(
                     Serializer.csvRowToHashMap(
-                            content,
-                            ctbl.getHeaders(),
-                            ctbl.getSplitter()
                             lines.get(1),
                             Serializer.getSerialFields(newClient),
                             clientsTable.getSplitter()
