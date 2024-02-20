@@ -37,6 +37,9 @@ public class CsvTable <T extends RowItem> {
     /** Unused Keys */
     protected Queue<Integer> unusedKeys;
 
+    /** Used keys */
+    protected HashSet<Integer> usedKeys;
+
     /** instancia de objeto generico*/
     protected T obj;
 
@@ -80,17 +83,17 @@ public class CsvTable <T extends RowItem> {
         /*
         Generate a set to store all the keys of objects in the table
          */
-        HashSet<Integer> keySet = new HashSet<>();
+        usedKeys = new HashSet<>();
 
         // Add each object key to set
         for (T obj : record){
-            keySet.add(obj.key);
+            usedKeys.add(obj.key);
         }
 
         // We iterate through the range of possible keys within the record
         for (int i = 0; i < record.size();i++){
 
-            if (!keySet.contains(i)){
+            if (!usedKeys.contains(i)){
                 unusedKeys.add(i); // Add key if set does not contain it
             }
         }
@@ -312,6 +315,9 @@ public class CsvTable <T extends RowItem> {
         // add object to record
         record.add(obj);
 
+        // add key to used keys set
+        usedKeys.add(obj.key);
+
         // sort record
         this.sort();
     }
@@ -335,8 +341,10 @@ public class CsvTable <T extends RowItem> {
     public void delRecord(int key)
     {
 
-        // We remove the object with the specified key from the record
-        record.remove(key);
+        if (usedKeys.contains(key)){
+            // We remove the object with the specified key from the record
+            record.remove(key);
+        }
 
         // add unused key to queue
         unusedKeys.add(key);
