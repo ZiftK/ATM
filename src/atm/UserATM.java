@@ -25,7 +25,21 @@ public class UserATM extends ATM{
 
     }
 
+    public void withDraw(){
 
+        msg.info(String.format("Saldo disponible: $%,.2f",clientData.getBalance()));
+        double ab = msg.getDoubleFromInput("Ingrese la cantidad a retirar");
+
+        if (ab > clientData.getBalance())
+            msg.error("La cantidad ingresada es mayor al saldo disponible. Intente de nuevo");
+
+        else{
+            clientData.increaseBalance(-ab);
+            msg.info(String.format("Retiro exitoso. Saldo restante: $%,.2f",clientData.getBalance()));
+        }
+
+
+    }
 
 
 
