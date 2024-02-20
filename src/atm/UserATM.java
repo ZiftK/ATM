@@ -9,10 +9,24 @@ public class UserATM extends ATM{
 
     Client clientData;
 
+    String clientFilePath;
+
 
     public UserATM(){
+        commands.clear();
+    }
+
+    public void deposit(){
+
+        double ab = msg.getDoubleFromInput("Ingrese cantidad a depositar");
+        clientData.increaseBalance(ab);
+
+        msg.info(String.format("Nuevo saldo: $%,.2f",clientData.getBalance()));
 
     }
+
+
+
 
 
     @Override
@@ -46,18 +60,29 @@ public class UserATM extends ATM{
         retrieve the item in the table with that key and
         load the customer data*/
         int finalInput = input;
-        ArrayList<KeyFileItem> keyItem = clientsTable.find(item -> item.key == finalInput);
+        ArrayList<KeyFileItem> keyItems = clientsTable.find(item -> item.key == finalInput);
 
-        CsvTable<Client> ctl = new CsvTable<>(keyItem.get(0).getFilePath(),new Client());
+        // save client file path
+        clientFilePath = keyItems.get(0).getFilePath();
+
+        CsvTable<Client> ctl = new CsvTable<>(clientFilePath,new Client());
         ctl.loadRecord();
         clientData = ctl.items().get(0);
     }
     public void save(){
 
-
+        // init client table
+        CsvTable<Client> ctl = new CsvTable<>(clientFilePath,clientData);
+        // load record
+        ctl.loadRecord();
+        // modify record
+        ctl.modifyRecord(clientData.key,clientData);
+        // save record
+        ctl.writeRecord();
     }
 
     public void show(){
         msg.info(clientData.toString());
     }
+
 }
