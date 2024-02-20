@@ -3,6 +3,8 @@ package atm;
 import java.util.HashMap;
 
 import consoleio.Msg;
+import strio.CsvTable;
+import strio.KeyFileItem;
 
 public abstract class ATM {
 
@@ -14,6 +16,9 @@ public abstract class ATM {
 
     /** CLI IO class */
     protected Msg msg;
+
+    /** Linked Table */
+    CsvTable<KeyFileItem> clientsTable;
 
     public ATM()
     {
@@ -85,6 +90,8 @@ public abstract class ATM {
         commands.put("leave",new Command(this::leave, "Termina la ejecución y guarda los cambios."));
 
         commands.put("?", new Command(this::help,"Imprime los comandos disponibles"));
+
+        commands.put("show", new Command(this::show,"Muestra todos los registros"));
     }
 
 
@@ -113,7 +120,11 @@ public abstract class ATM {
     /**
      * Load data from csv file to table
      */
-    public abstract void load();
+    public void load(){
+        // load linked table
+        clientsTable = new CsvTable<>("files/records.csv", new KeyFileItem());
+        clientsTable.loadRecord();
+    }
 
     /**
      * Dump data from table to csv file

@@ -12,16 +12,8 @@ import strio.WNR;
 
 public class AdminATM extends ATM {
 
-    /** Linked Table */
-    CsvTable<KeyFileItem> clientsTable;
 
-    @Override
-    public void load()
-    {
-        // load linked table
-        clientsTable = new CsvTable<>("files/records.csv", new KeyFileItem());
-        clientsTable.loadRecord();
-    }
+
 
     @Override
     public void save()
