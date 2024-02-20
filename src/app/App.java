@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import atm.UserATM;
 import strio.CsvTable;
 import strio.KeyFileItem;
 import gnc.SerializableField;
@@ -41,8 +42,8 @@ public class App {
 
     public static void main(String[] args){
 
-        new AdminATM().loop();
-
+//        new AdminATM().loop();
+        new UserATM().loop();
     }
 
 

@@ -4,6 +4,7 @@ import strio.CsvTable;
 import strio.KeyFileItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserATM extends ATM{
 
@@ -11,25 +12,62 @@ public class UserATM extends ATM{
 
     String clientFilePath;
 
+    /**
+     * Print user menu
+     */
+    void menu(){
 
-    public UserATM(){
-        commands.clear();
+        // print empty line
+        System.out.println("\n");
+
+        // print header
+        msg.ph("Menu de usuario",'*');
+
+        // format client info
+        String info = String.format(
+                "\n\nBienvenido %s\tTu saldo es: $%,.2f\n",
+                clientData.getName(),
+                clientData.getBalance()
+        );
+
+        // print client info
+        msg.info(info);
+
+        // print option
+        help();
     }
 
+    /**
+     * Increase client balance
+     */
     public void deposit(){
 
+        // get increase amount
         double ab = msg.getDoubleFromInput("Ingrese cantidad a depositar");
+
+        // increase balance
         clientData.increaseBalance(ab);
 
+        // print info message
         msg.info(String.format("Nuevo saldo: $%,.2f",clientData.getBalance()));
+
+        // sve data
+        this.save();
 
     }
 
+    /**
+     * Decrease client balance
+     */
     public void withDraw(){
 
+        // show balance info
         msg.info(String.format("Saldo disponible: $%,.2f",clientData.getBalance()));
+
+        // get decrease amount
         double ab = msg.getDoubleFromInput("Ingrese la cantidad a retirar");
 
+        // only withDraw if balance is greater than withDraw
         if (ab > clientData.getBalance())
             msg.error("La cantidad ingresada es mayor al saldo disponible. Intente de nuevo");
 
@@ -38,10 +76,17 @@ public class UserATM extends ATM{
             msg.info(String.format("Retiro exitoso. Saldo restante: $%,.2f",clientData.getBalance()));
         }
 
-
+        this.save();// save data
     }
 
+    @Override
+    public  void loadCommands(){
+        commands = new HashMap<>();
+        commands.put("0",new Command(this::leave,"Salir"));
+        commands.put("1",new Command(this::deposit,"Deposita efectivo"));
+        commands.put("2",new Command(this::withDraw,"Retira efectivo"));
 
+    }
 
     @Override
     public void load(){
@@ -82,6 +127,8 @@ public class UserATM extends ATM{
         CsvTable<Client> ctl = new CsvTable<>(clientFilePath,new Client());
         ctl.loadRecord();
         clientData = ctl.items().get(0);
+
+        menu();
     }
     public void save(){
 
