@@ -364,7 +364,7 @@ public class CsvTable <T extends RowItem> {
      * @return Objects that meet the condition
      */
     @SuppressWarnings("unchecked")
-    public T[] find(Predicate<T> condition){
+    public ArrayList<T> find(Predicate<T> condition){
 
         // init return array list
         ArrayList<T> list = new ArrayList<>();
@@ -379,7 +379,7 @@ public class CsvTable <T extends RowItem> {
             }
         }
 
-        return (T[]) list.toArray();
+        return list;
     }
 
     /**
@@ -390,6 +390,13 @@ public class CsvTable <T extends RowItem> {
     public ArrayList<T> items(){
         return record;
     }
+
+    /**
+     *  Check if specified key exists in table
+     * @param key : Key to check
+     * @return true if key exists in table, else return false
+     */
+    public boolean exists(int key){ return usedKeys.contains(key); }
 
     /**
      *
