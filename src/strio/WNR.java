@@ -92,6 +92,7 @@ public class WNR {
         for (String line : readFileLines(filePath)){
             // build string
             content.append(line);
+            content.append("\n");
         }
 
         // return string
