@@ -50,6 +50,7 @@ public class CsvTable <T extends RowItem> {
     {
         this.record = new ArrayList<>();
         this.unusedKeys = new ArrayDeque<>();
+        usedKeys = new HashSet<>();
         this.filePath = filePath;
         this.obj = obj;
         this.headers = Serializer.getSerialFields(obj);
@@ -83,7 +84,7 @@ public class CsvTable <T extends RowItem> {
         /*
         Generate a set to store all the keys of objects in the table
          */
-        usedKeys = new HashSet<>();
+
 
         // Add each object key to set
         for (T obj : record){
