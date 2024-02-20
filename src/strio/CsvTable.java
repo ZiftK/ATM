@@ -332,7 +332,16 @@ public class CsvTable <T extends RowItem> {
      */
     public void modifyRecord(int key, T obj)
     {
-        record.set(key, obj);
+        // get previous element with specified key
+        T old = this.find(item -> item.key == key).get(0);
+
+        // get index of element
+        int index = record.indexOf(old);
+
+        // replace old element with new object
+        record.set(index,obj);
+
+
     }
 
     /**
