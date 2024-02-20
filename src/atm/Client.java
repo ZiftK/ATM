@@ -148,6 +148,14 @@ public class Client extends RowItem{
     }
 
     /**
+     * Increase currently balance with specified amount
+     * @param amount : amount to increase
+     */
+    public void increaseBalance(double amount){
+        this.balance += amount;
+    }
+
+    /**
      * Establece el tipo de fianza al especificado
      * @param bailType : Tipo de fianza
      */
