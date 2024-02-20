@@ -306,7 +306,7 @@ public class CsvTable <T extends RowItem> {
          */
         if (!repeatKeys && ignoreKey){
 
-            obj.key = (obj.key < record.size() && !unusedKeys.contains(obj.key)) ? obj.key : record.size();
+            obj.key = (!unusedKeys.contains(obj.key)) ? obj.key : record.size();
         }
 
         // add object to record
