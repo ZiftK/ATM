@@ -341,13 +341,20 @@ public class CsvTable <T extends RowItem> {
     public void delRecord(int key)
     {
 
-        if (usedKeys.contains(key)){
-            // We remove the object with the specified key from the record
-            record.remove(key);
+        // We remove the object with the specified key from the record
+        if (usedKeys.contains(key)) for (T item : record) {
+            if (item.key == key) {
+                // remove item from record
+                record.remove(item);
+                // add unused key to queue
+                unusedKeys.add(key);
+
+                // break loop
+                break;
+            }
         }
 
-        // add unused key to queue
-        unusedKeys.add(key);
+
     }
 
     /**
