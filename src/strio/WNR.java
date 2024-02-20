@@ -121,4 +121,14 @@ public class WNR {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Add content to specified file
+     * @param filePath : file path
+     * @param newContent : content to add
+     */
+    public static void addContent(String filePath, String newContent){
+        String cont = WNR.readContent(filePath);
+        WNR.write(filePath,cont+newContent);
+    }
 }
